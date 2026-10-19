@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Benzto VIP Control Center</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        appBg: '#0c0a02',        /* Deep Dark Yellow / Blackish Gold */
+                        cardBg: '#191306',       /* Dark Amber Card Background */
+                        cardBorder: '#2d220a',   /* Subtle Gold-Brown Border */
+                        goldYellow: '#f59e0b',   /* Bright Golden Yellow */
+                        goldLight: '#fef08a',    /* Pale Golden Highlight */
+                        amberAccent: '#d97706',  /* Rich Deep Amber */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #0c0a02;
+            color: #ffffff;
+            overscroll-behavior-y: contain;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Gold Grid Pattern Background */
+        .bg-grid-pattern {
+            background-size: 36px 36px;
+            background-image:
+                linear-gradient(to right, rgba(245, 158, 11, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(245, 158, 11, 0.04) 1px, transparent 1px);
+            background-position: center center;
+        }
+
+        /* Hide Scrollbars */
+        ::-webkit-scrollbar { display: none; }
+        
+        /* Custom Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            appearance: none;
+            width: 100%; 
+            background: transparent; 
+        }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            height: 18px; width: 18px; 
+            border-radius: 50%; 
+            background: #ffffff; 
+            cursor: pointer; 
+            margin-top: -7px;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; 
+            cursor: pointer; 
+            border-radius: 2px;
+        }
+
+        /* Fade Animation for Tabs */
+        .fade-in {
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-goldYellow selection:text-black">
+
+    <main class="w-full max-w-md mx-auto min-h-screen relative pb-28 flex flex-col">
+        
+        <!-- ================= HEADER ================= -->
+        <header class="flex items-center justify-between px-5 pt-6 pb-2">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-[14px] bg-gradient-to-br from-amber-500 via-yellow-600 to-amber-700 flex items-center justify-center shadow-[0_0_18px_rgba(245,158,11,0.35)]">
+                    <span class="text-black font-black text-lg">B</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-white font-extrabold text-[16px] tracking-wide">Benzto<span class="text-goldYellow"> VIP</span></h1>
+                    <span class="text-amber-500/70 text-[8px] font-bold tracking-[0.15em] uppercase mt-0.5">PERSONAL CONTROL CENTER</span>
+                </div>
+            </div>
+            <div class="bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full flex items-center gap-2 backdrop-blur-sm">
+                <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse"></div>
+                <span class="text-amber-200 text-[9px] font-bold tracking-wider uppercase">ONLINE</span>
+            </div>
+        </header>
+
+        <!-- ================= STATUS BANNER ================= -->
+        <div class="mx-5 mt-3 mb-2 bg-cardBg border border-cardBorder rounded-xl p-3.5 flex items-center text-[10px] font-semibold text-amber-200/70 uppercase tracking-wider shadow-lg">
+            <div class="w-2 h-2 rounded-full bg-amber-500 mr-3 shadow-[0_0_6px_rgba(245,158,11,0.6)]"></div>
+            SYSTEM READY <span class="mx-2 text-amber-900">•</span> BENZTO VIP <span class="mx-2 text-amber-900">•</span> <span class="text-goldYellow font-bold">Benzto VIP</span>
+        </div>
+
+        <!-- ================= TAB CONTENT AREA ================= -->
+        <div id="content-area" class="flex-1 w-full">
+
+            <!-- 1. HOME TAB -->
+            <div id="tab-home" class="tab-pane block fade-in">
+                <!-- Welcome Card -->
+                <div class="mx-5 mt-4 bg-cardBg border border-cardBorder rounded-[28px] p-7 relative overflow-hidden shadow-2xl shadow-amber-950/20">
+                    <div class="absolute inset-0 bg-grid-pattern opacity-80"></div>
+                    <div class="absolute top-10 left-10 w-36 h-36 bg-amber-500/15 rounded-full blur-[45px]"></div>
+                    <div class="relative z-10">
+                        <p class="text-[9px] text-amber-400/80 font-bold tracking-[0.2em] uppercase mb-2">WELCOME BACK</p>
+                        <h2 class="text-[32px] leading-none font-black tracking-tight text-white mb-4">
+                            BENZTO<span class="text-goldYellow">VIP</span>
+                        </h2>
+                        <p class="text-[10px] text-amber-200/60 font-semibold tracking-widest uppercase">CONTROL YOUR EXPERIENCE</p>
+                        
+                        <button class="mt-6 bg-[#0c0a02]/80 backdrop-blur-md border border-amber-500/20 px-4 py-2.5 rounded-full flex items-center gap-2 hover:bg-amber-500/10 transition">
+                            <div class="w-1.5 h-1.5 rounded-full bg-goldYellow shadow-[0_0_6px_rgba(245,158,11,0.8)]"></div>
+                            <span class="text-[9px] text-amber-200 font-bold tracking-widest uppercase">INTERFACE READY</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Profile Section -->
+                <div class="mx-5 mt-7">
+                    <div class="flex items-end justify-between mb-4">
+                        <div class="flex flex-col">
+                            <p class="text-[9px] text-amber-400/80 font-bold tracking-widest uppercase mb-1">YOUR SPACE</p>
+                            <h3 class="text-[22px] font-bold text-white">Admin Profile</h3>
+                        </div>
+                        <span class="text-[9px] text-amber-500/60 font-bold tracking-widest uppercase mb-1">01 / HOME</span>
+                    </div>
+
+                    <div class="bg-cardBg border border-cardBorder rounded-[24px] p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <!-- Profile Image loaded directly from image_10.png -->
+                                <div class="w-14 h-14 rounded-2xl overflow-hidden border border-amber-500/30 p-0.5 bg-gradient-to-br from-amber-500/20 to-yellow-600/30">
+                                     <img src="https://i.ibb.co/sdSkCHZH/IMG-1928.jpg" alt="Admin Avatar" class="w-full h-full object-cover rounded-xl" onerror="this.src='https://placehold.co/150x150/191306/f59e0b?text=BV'">
+                                </div>
+                                <div>
+                                    <p class="text-[9px] text-amber-400/80 font-bold tracking-widest uppercase mb-0.5">ADMINISTRATOR</p>
+                                    <h4 class="text-base font-bold text-white">Benzto VIP</h4>
+                                    <p class="text-[10px] text-amber-200/50 mt-0.5">Benzto VIP • Control Center</p>
+                                </div>
+                            </div>
+                            <div class="w-7 h-7 rounded-full border border-amber-500/40 bg-amber-500/10 flex items-center justify-center">
+                                <i class="fa-solid fa-check text-goldYellow text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 mt-5">
+                            <button class="bg-[#0c0a02]/80 border border-amber-500/15 py-2.5 rounded-xl text-[9px] font-bold text-amber-200 tracking-widest uppercase active:bg-amber-500/10 transition">ZALO</button>
+                            <button class="bg-[#0c0a02]/80 border border-amber-500/15 py-2.5 rounded-xl text-[9px] font-bold text-amber-200 tracking-widest uppercase active:bg-amber-500/10 transition">TIKTOK</button>
+                            <button class="bg-amber-500/15 border border-amber-500/30 py-2.5 rounded-xl text-[9px] font-bold text-goldYellow tracking-widest uppercase active:bg-amber-500/25 transition">PROFILE ADMIN</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="mx-5 mt-4 bg-cardBg border border-cardBorder rounded-[20px] p-5 text-left flex flex-col gap-2">
+                    <p class="text-[9px] text-goldYellow font-bold tracking-widest uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-sparkles text-[8px]"></i> WELCOME TO BENZTO VIP
+                    </p>
+                    <p class="text-[9px] text-amber-200/60 leading-relaxed uppercase">
+                        APP DEVELOPED BY BENZTO VIP - THIS IS COMPLETELY FREE. IF YOU BOUGHT THIS WITH MONEY, YOU HAVE BEEN SCAMMED - ADMIN SHARES THIS APP FOR FREE IN BOX WITH EFFECTS EQUAL TO 1/15 OF PAID APP.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. FUNCTION TAB -->
+            <div id="tab-function" class="tab-pane hidden fade-in">
+                <div class="mx-5 mt-6 mb-4">
+                    <p class="text-[9px] text-amber-400/80 font-bold tracking-widest uppercase mb-1">PERSONAL SETTINGS</p>
+                    <h3 class="text-[26px] font-bold text-white">Function <span class="text-goldYellow">Center</span></h3>
+                    <p class="text-[11px] text-amber-200/60 mt-1">Free App Functions to Support Aim.</p>
+                </div>
+
+                <div class="mx-5 bg-cardBg border border-cardBorder rounded-[24px] p-2 flex flex-col">
+                    
+                    <!-- Toggle 1 -->
+                    <div class="flex items-center justify-between p-4 border-b border-amber-500/10">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wide">AIMLOCK</h4>
+                            <p class="text-[10px] text-amber-200/50 mt-1">Head Lock.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500 border border-amber-500/20"></div>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 2 -->
+                    <div class="flex items-center justify-between p-4 border-b border-amber-500/10">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wide">STICKY AIM</h4>
+                            <p class="text-[10px] text-amber-200/50 mt-1">Sticky Aim Lock.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500 border border-amber-500/20"></div>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 3 -->
+                    <div class="flex items-center justify-between p-4 border-b border-amber-500/10">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wide">FIX RECOIL</h4>
+                            <p class="text-[10px] text-amber-200/50 mt-1">Reduce Recoil and Shake.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500 border border-amber-500/20"></div>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 4 (Checked by default) -->
+                    <div class="flex items-center justify-between p-4 border-b border-amber-500/10">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wide">SMOOTH DEVICE</h4>
+                            <p class="text-[10px] text-amber-200/50 mt-1">Keep device cool.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500 border border-amber-500/20"></div>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 5 -->
+                    <div class="flex items-center justify-between p-4 border-b border-amber-500/10">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wide">REDUCE LAG</h4>
+                            <p class="text-[10px] text-amber-200/50 mt-1">Reduce Lag Mode.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500 border border-amber-500/20"></div>
+                        </label>
+                    </div>
+
+                    <!-- Toggle 6 -->
+                    <div class="flex items-center justify-between p-4">
+                        <div>
+                            <h4 class="text-sm font-bold text-white uppercase tracking-wide">OPTIMIZE DEVICE</h4>
+                            <p class="text-[10px] text-amber-200/50 mt-1">Compact tab spacing.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[22px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500 border border-amber-500/20"></div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Info Card -->
+                <div class="mx-5 mt-4 bg-cardBg border border-cardBorder rounded-[20px] p-5">
+                    <p class="text-[9px] text-goldYellow font-bold tracking-widest uppercase mb-2">INFO</p>
+                    <p class="text-[9px] text-amber-200/60 leading-relaxed uppercase">
+                        APP IS FREE, SO FUNCTIONS ARE ONLY WORTH 1/15 OF PAID APPS - PAID APPS START FROM 200K.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. LIVE TAB -->
+            <div id="tab-live" class="tab-pane hidden fade-in">
+                <div class="mx-5 mt-6 mb-4">
+                    <p class="text-[9px] text-amber-400/80 font-bold tracking-widest uppercase mb-1">LIVE CONTROL</p>
+                    <h3 class="text-[26px] font-bold text-white">Performance <span class="text-goldYellow">Panel</span></h3>
+                    <p class="text-[11px] text-amber-200/60 mt-1">Adjust display options from 0 to 100%.</p>
+                </div>
+
+                <!-- Session Status Box -->
+                <div class="mx-5 mb-4 bg-cardBg border border-cardBorder rounded-[20px] p-4 flex justify-between items-center">
+                    <div>
+                        <p class="text-[9px] text-amber-400/70 font-bold tracking-widest uppercase mb-1.5">SESSION STATUS</p>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-goldYellow shadow-[0_0_8px_rgba(245,158,11,0.8)]"></div>
+                            <span class="text-[10px] text-amber-100 font-bold tracking-widest uppercase">READY TO CONFIGURE</span>
+                        </div>
+                    </div>
+                    <div class="bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg">
+                         <span class="text-[9px] text-goldYellow font-bold tracking-widest uppercase">LOCAL UI</span>
+                    </div>
+                </div>
+
+                <div class="mx-5 bg-cardBg border border-cardBorder rounded-[24px] p-5 flex flex-col gap-6">
+                    
+                    <!-- Slider 1 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-bolt text-goldYellow"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white uppercase tracking-wide">FIX LAG</h4>
+                                    <p class="text-[9px] text-amber-200/50 mt-0.5 uppercase tracking-wide">REDUCE LAG</p>
+                                </div>
+                            </div>
+                            <span id="slider1-val" class="text-lg font-bold text-goldYellow">50%</span>
+                        </div>
+                        <div class="relative w-full">
+                            <input type="range" id="slider1" min="0" max="100" value="50" oninput="updateSlider(this)" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between mt-2 px-1">
+                                <span class="text-[9px] text-amber-500/40">0%</span>
+                                <span class="text-[9px] text-amber-500/40">50%</span>
+                                <span class="text-[9px] text-amber-500/40">100%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-[1px] bg-amber-500/10"></div>
+
+                    <!-- Slider 2 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-microchip text-goldYellow"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white uppercase tracking-wide">OPTIMIZE FPS</h4>
+                                    <p class="text-[9px] text-amber-200/50 mt-0.5 uppercase tracking-wide">BOOST DEVICE POWER</p>
+                                </div>
+                            </div>
+                            <span id="slider2-val" class="text-lg font-bold text-goldYellow">50%</span>
+                        </div>
+                        <div class="relative w-full">
+                            <input type="range" id="slider2" min="0" max="100" value="50" oninput="updateSlider(this)" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between mt-2 px-1">
+                                <span class="text-[9px] text-amber-500/40">0%</span>
+                                <span class="text-[9px] text-amber-500/40">50%</span>
+                                <span class="text-[9px] text-amber-500/40">100%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-[1px] bg-amber-500/10"></div>
+
+                    <!-- Slider 3 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-water text-goldYellow"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white uppercase tracking-wide">SMOOTH DEVICE</h4>
+                                    <p class="text-[9px] text-amber-200/50 mt-0.5 uppercase tracking-wide">REDUCE MOTION FOR SMOOTHNESS</p>
+                                </div>
+                            </div>
+                            <span id="slider3-val" class="text-lg font-bold text-goldYellow">50%</span>
+                        </div>
+                        <div class="relative w-full">
+                            <input type="range" id="slider3" min="0" max="100" value="50" oninput="updateSlider(this)" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer">
+                            <div class="flex justify-between mt-2 px-1">
+                                <span class="text-[9px] text-amber-500/40">0%</span>
+                                <span class="text-[9px] text-amber-500/40">50%</span>
+                                <span class="text-[9px] text-amber-500/40">100%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Note Card -->
+                <div class="mx-5 mt-4 bg-cardBg border border-cardBorder rounded-[20px] p-5">
+                    <p class="text-[9px] text-goldYellow font-bold tracking-widest uppercase mb-2">NOTE</p>
+                    <p class="text-[9px] text-amber-200/60 leading-relaxed uppercase">
+                        Free app functions are only worth 1/15 of paid apps, for paid apps contact Admin, price from 200K.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. BOOSTER TAB -->
+            <div id="tab-booster" class="tab-pane hidden fade-in">
+                <div class="mx-5 mt-6 mb-6">
+                    <p class="text-[9px] text-amber-400/80 font-bold tracking-widest uppercase mb-1">GAME LAUNCHER</p>
+                    <h3 class="text-[26px] font-bold text-white">Booster <span class="text-goldYellow">Center</span></h3>
+                    <p class="text-[11px] text-amber-200/60 mt-1">Select the correct Free Fire.</p>
+                </div>
+
+                <div class="mx-5 flex flex-col gap-5">
+                    <!-- Game 1 -->
+                    <div class="bg-<!-- FREE FIRE CARD -->
+<div class="bg-cardBg border border-cardBorder rounded-3xl p-4 space-y-3">
+    <div class="flex items-center gap-3">
+        <div class="w-14 h-14 rounded-2xl border border-amber-500/30 overflow-hidden bg-[#181307] flex items-center justify-center p-1 shadow-md">
+            <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="20" fill="#181307"/>
+                <path d="M15 20L85 15L75 85L20 80L15 20Z" fill="#F59E0B" fill-opacity="0.2"/>
+                <path d="M25 25H75V35H40V45H70V55H40V75H25V25Z" fill="#F59E0B"/>
+                <path d="M60 40L80 30L75 60L60 40Z" fill="#FBBF24"/>
+            </svg>
+        </div>
+        <div>
+            <h4 class="font-bold text-base text-white">FREE FIRE</h4>
+            <p class="text-xs text-amber-200/50">Open app if installed</p>
+        </div>
+    </div>
+    <a href="freefire://" class="w-full bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-black font-extrabold py-3 rounded-2xl text-xs tracking-wider shadow-lg shadow-amber-500/20 transition active:scale-98 text-center block">
+        OPEN FREE FIRE ↗
+    </a>
+</div>
+
+<!-- FREE FIRE MAX CARD -->
+<div class="bg-cardBg border border-cardBorder rounded-3xl p-4 space-y-3">
+    <div class="flex items-center gap-3">
+        <div class="w-14 h-14 rounded-2xl border border-amber-500/30 overflow-hidden bg-[#181307] flex items-center justify-center p-1 shadow-md">
+            <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="20" fill="#181307"/>
+                <rect x="55" y="10" width="35" height="18" rx="4" fill="#F59E0B"/>
+                <text x="72.5" y="23" font-family="sans-serif" font-weight="900" font-size="11" fill="#000000" text-anchor="middle">MAX</text>
+                <path d="M20 32H80V40H35V50H70V58H35V78H20V32Z" fill="#F59E0B"/>
+            </svg>
+        </div>
+        <div>
+            <h4 class="font-bold text-base text-white">FREE FIRE MAX</h4>
+            <p class="text-xs text-amber-200/50">Open app if installed</p>
+        </div>
+    </div>
+    <a href="freefiremax://" class="w-full bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-black font-extrabold py-3 rounded-2xl text-xs tracking-wider shadow-lg shadow-amber-500/20 transition active:scale-98 text-center block">
+        OPEN FREE FIRE MAX ↗
+    </a>
+</div>
+
+                <!-- Booster Info Card -->
+                <div class="mx-5 mt-6 bg-cardBg border border-cardBorder rounded-[20px] p-5">
+                    <p class="text-[9px] text-goldYellow font-bold tracking-widest uppercase mb-2">BOOSTER INFO</p>
+                    <p class="text-[10px] text-amber-200/60 leading-relaxed">
+                        After turning on the function, select the Free Fire you are using, the app will automatically enter the game.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 5. BOX TAB -->
+            <div id="tab-box" class="tab-pane hidden fade-in">
+                <div class="flex flex-col items-center justify-center h-64 text-amber-500/40">
+                     <i class="fa-solid fa-box-open text-4xl mb-3"></i>
+                     <p class="text-xs tracking-widest uppercase">Box Content Empty</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= BOTTOM NAVIGATION ================= -->
+        <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-[#0c0a02]/95 backdrop-blur-xl border-t border-amber-500/15 pt-3 pb-6 px-6 z-50">
+            <ul class="flex justify-between items-center">
+                <!-- Home (Active by default) -->
+                <li id="nav-home" onclick="switchTab('home')" class="nav-item text-goldYellow opacity-100 flex flex-col items-center gap-1.5 cursor-pointer transition-all duration-300">
+                    <i class="fa-solid fa-house text-lg mb-0.5 drop-shadow-[0_0_8px_rgba(245,158,11,0.7)]"></i>
+                    <span class="text-[9px] font-bold tracking-widest uppercase">Home</span>
+                </li>
+                <!-- Function -->
+                <li id="nav-function" onclick="switchTab('function')" class="nav-item text-amber-500/40 opacity-70 flex flex-col items-center gap-1.5 cursor-pointer hover:text-goldYellow transition-all duration-300">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lg mb-0.5"></i>
+                    <span class="text-[9px] font-bold tracking-widest uppercase">Function</span>
+                </li>
+                <!-- Live -->
+                <li id="nav-live" onclick="switchTab('live')" class="nav-item text-amber-500/40 opacity-70 flex flex-col items-center gap-1.5 cursor-pointer hover:text-goldYellow transition-all duration-300">
+                    <i class="fa-solid fa-gem text-lg mb-0.5"></i>
+                    <span class="text-[9px] font-bold tracking-widest uppercase">Live</span>
+                </li>
+                <!-- Booster -->
+                <li id="nav-booster" onclick="switchTab('booster')" class="nav-item text-amber-500/40 opacity-70 flex flex-col items-center gap-1.5 cursor-pointer hover:text-goldYellow transition-all duration-300">
+                    <i class="fa-solid fa-bolt text-xl mb-0.5"></i>
+                    <span class="text-[9px] font-bold tracking-widest uppercase">Booster</span>
+                </li>
+                <!-- Box -->
+                <li id="nav-box" onclick="switchTab('box')" class="nav-item text-amber-500/40 opacity-70 flex flex-col items-center gap-1.5 cursor-pointer hover:text-goldYellow transition-all duration-300">
+                    <i class="fa-solid fa-box text-lg mb-0.5"></i>
+                    <span class="text-[9px] font-bold tracking-widest uppercase">Box</span>
+                </li>
+            </ul>
+        </nav>
+
+    </main>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // --- Tab Switching Logic ---
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-pane');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // Show selected tab
+            const targetTab = document.getElementById('tab-' + tabName);
+            if(targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Reset all nav items to default (inactive) state
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('text-goldYellow', 'opacity-100');
+                item.classList.add('text-amber-500/40', 'opacity-70');
+                
+                const icon = item.querySelector('i');
+                if(icon) {
+                    icon.classList.remove('drop-shadow-[0_0_8px_rgba(245,158,11,0.7)]');
+                }
+            });
+
+            // Set active state for the clicked nav item
+            const activeNav = document.getElementById('nav-' + tabName);
+            if(activeNav) {
+                activeNav.classList.remove('text-amber-500/40', 'opacity-70');
+                activeNav.classList.add('text-goldYellow', 'opacity-100');
+                
+                const activeIcon = activeNav.querySelector('i');
+                if(activeIcon) {
+                    activeIcon.classList.add('drop-shadow-[0_0_8px_rgba(245,158,11,0.7)]');
+                }
+            }
+            
+            // Smoothly scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Range Slider Dynamic Styling ---
+        function updateSlider(slider) {
+            const value = slider.value;
+            const valSpan = document.getElementById(slider.id + '-val');
+            if(valSpan) {
+                valSpan.innerText = value + '%';
+            }
+            
+            // Update track background fill via linear-gradient (Golden Yellow left, Dark Amber right)
+            slider.style.background = `linear-gradient(to right, #f59e0b 0%, #f59e0b ${value}%, #271e0a ${value}%, #271e0a 100%)`;
+        }
+
+        // Initialize slider tracks on page load
+        window.onload = function() {
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                updateSlider(slider);
+            });
+        }
+    </script>
+</body>
+</html>
